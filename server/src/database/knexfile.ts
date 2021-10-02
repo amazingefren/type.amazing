@@ -1,4 +1,7 @@
 // database.d.ts
+
+require('dotenv').config({path: '../../.env'})
+
 interface KnexConnection extends Knex<any, unknown[]> {
   test?: () => Promise<any>;
 }
