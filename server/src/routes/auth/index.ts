@@ -1,7 +1,7 @@
 import * as passport from "passport";
 import { Router } from "express";
 
-import User from "../../models/user.model";
+// import User from "../../models/user.model";
 import { RegisterInput } from "./dto/user.dto";
 
 import log from "../../utils/logger";
