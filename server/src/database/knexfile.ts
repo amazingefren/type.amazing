@@ -10,7 +10,7 @@ import { knex, Knex } from "knex";
 import getLogger from "../utils/logger";
 const logger = getLogger("Knex");
 
-const config: Knex.Config = {
+export const config: Knex.Config = {
   client: "mysql",
   connection: {
     host: process.env.DB_HOST || 'localhost',
@@ -42,4 +42,5 @@ db.test = async () => {
   })
 };
 
-export default config;
+// required for knex migrations
+export default config

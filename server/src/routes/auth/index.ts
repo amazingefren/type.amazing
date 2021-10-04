@@ -1,10 +1,11 @@
 import * as passport from "passport";
-import { Router } from "express";
-
-// import User from "../../models/user.model";
-import { RegisterInput } from "./dto/user.dto";
+// import { db } from '../../database/knexfile'
+import { Router, Response, Request } from "express";
+import { userRegisterValidator } from "./dto/user.dto";
 
 import log from "../../utils/logger";
+import { validationResult } from "express-validator";
+import authService from "../../services/auth.service";
 const logger = log("/auth");
 
 const router = Router();
@@ -16,10 +17,17 @@ router.get("/login", (req, res) => {
 
 router.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
-router.post("/register", (req, res) => {
-  if (req.body.password) return res.send("hi");
-  logger.debug(JSON.stringify(req.body));
-  res.send(true);
-});
+router.post(
+  "/register",
+  userRegisterValidator(),
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const userId = await authService.createUser(req.body);
+    return res.json({ userId: userId });
+  }
+);
 
 export default router;
