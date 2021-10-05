@@ -1,12 +1,9 @@
 import * as passport from "passport";
-// import { db } from '../../database/knexfile'
 import { Router, Response, Request } from "express";
 import { userRegisterValidator } from "./dto/user.dto";
 
-// import log from "../../utils/logger";
 import { validationResult } from "express-validator";
 import authService from "../../services/auth.service";
-// const logger = log("/auth");
 
 const router = Router();
 
@@ -16,12 +13,12 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login", (req, res, next) => {
-  if (req.isAuthenticated()) return res.send("Already logged in")
+  if (req.isAuthenticated()) return res.send("Already logged in");
   passport.authenticate("local", { successRedirect: "/" }, (err, user) => {
-    if (err) return res.send(err);
+    if (err) return res.send({ error: err });
     req.login(user, (err) => {
       if (err) {
-        return res.send(err);
+        return res.send({ error: err });
       }
       return res.send("ok");
     });
@@ -32,6 +29,7 @@ router.post(
   "/register",
   userRegisterValidator(),
   async (req: Request, res: Response) => {
+    if (req.isAuthenticated()) return res.send("Already logged in");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -40,7 +38,7 @@ router.post(
       const userId = await authService.createUser(req.body);
       return res.json({ userId: userId });
     } catch ({ message }) {
-      return res.status(500).send({ error: message });
+      return res.status(500).send({ error: { message } });
     }
   }
 );

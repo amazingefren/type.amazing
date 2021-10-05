@@ -13,9 +13,6 @@ const getError = (code: string) => {
 };
 
 const authService = {
-  getUserById: async (id: Number) => {
-    return "";
-  },
   // Create User
   createUser: async (data: RegisterInput) => {
     try {
