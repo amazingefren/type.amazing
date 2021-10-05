@@ -1,6 +1,6 @@
 // database.d.ts
 
-require('dotenv').config({path: '../../.env'})
+require("dotenv").config({ path: "../../.env" });
 
 interface KnexConnection extends Knex<any, unknown[]> {
   test?: () => Promise<any>;
@@ -13,7 +13,7 @@ const logger = getLogger("Knex");
 export const config: Knex.Config = {
   client: "mysql",
   connection: {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || "localhost",
     port: parseInt(process.env.DB_PORT) || 3306,
     user: process.env.DB_AUTH_USER,
     password: process.env.DB_AUTH_PASSWORD,
@@ -22,25 +22,30 @@ export const config: Knex.Config = {
   log: {
     warn(message) {
       logger.warn(message);
+      return message;
     },
     error(message) {
       logger.error(message);
+      return message;
     },
     deprecate(message) {
       logger.alert(message);
+      return message;
     },
     debug(message) {
-      logger.debug(message);
+      console.log(message)
+      return message;
     },
   },
+  debug: true
 };
 
 export const db: KnexConnection = knex(config);
 db.test = async () => {
-  return db.raw("select 1+1 as result").then(()=>{
-    logger.info('Connected to Database...')
-  })
+  return db.raw("select 1+1 as result").then(() => {
+    logger.info("Connected to Database...");
+  });
 };
 
 // required for knex migrations
-export default config
+export default config;

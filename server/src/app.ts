@@ -1,5 +1,6 @@
 // Module Imports
 import * as express from "express";
+// import * as passport from "passport";
 import * as session from "express-session";
 import { db } from "./database/knexfile";
 const KnexSessionStore = require("connect-session-knex")(session);
@@ -18,15 +19,6 @@ const port = process.env.PORT || 8000;
 
 // Middleware
 
-// Authentication
-app.use(auth.initialize());
-// app.use(passport.session());
-
-// Express
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(router);
-
 // Auth Session
 const store = new KnexSessionStore({
   knex: db as any,
@@ -35,18 +27,24 @@ const store = new KnexSessionStore({
   createtable: true,
 });
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "bob",
+    cookie: { maxAge: 60000 },
+    resave: true,
+    saveUninitialized: false,
+    store: store,
+  })
+);
+// Authentication
+app.use(auth.initialize());
+app.use(auth.session());
+
 const start = async () => {
   await db.test();
-
-  app.use(
-    session({
-      secret: "session secret",
-      cookie: { maxAge: 60000 },
-      resave: false,
-      saveUninitialized: false,
-      store,
-    })
-  );
+  app.use(router);
 
   const server: any = app.listen(port, () => {
     logger.info(
