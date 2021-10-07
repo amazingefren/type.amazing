@@ -3,7 +3,7 @@ import React from "react";
 export default () => (
   <div
     style={{
-      backgroundColor: "black",
+      backgroundColor: "var(--fg)",
       height: "100vh",
       width: "100vw",
       color: "white",

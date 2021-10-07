@@ -1,0 +1,8 @@
+:root {
+  --bg: #ff0000;
+  --fg: #ffffff;
+
+  * {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}

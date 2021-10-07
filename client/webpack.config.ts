@@ -16,7 +16,7 @@ const config: webpack.Configuration = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].[contenthash].bundle.js",
     clean: true,
   },
   module: {
@@ -47,6 +47,7 @@ const config: webpack.Configuration = {
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
     extensions: [".tsx", ".ts", ".jsx", ".js"],
+    symlinks: false
   },
   devServer: {
     compress: true,
@@ -59,9 +60,21 @@ const config: webpack.Configuration = {
     },
   },
   optimization: {
-    // runtimeChunk: true,
+    runtimeChunk: 'single',
     minimize: true,
     minimizer: [new TerserPlugin()],
+    usedExports: true,
+    // Tesitng
+    splitChunks: {
+			cacheGroups: {
+				commons: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all'
+				}
+			}
+		}
+    ////////////////////////
   },
   plugins: [htmlPlugin],
 };

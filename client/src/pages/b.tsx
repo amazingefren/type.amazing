@@ -4,7 +4,7 @@ export default () => (
   <div
     id="hi"
     style={{
-      backgroundColor: "red",
+      // backgroundColor: "red",
       height: "100vh",
       width: "100vw",
       color: "white",
