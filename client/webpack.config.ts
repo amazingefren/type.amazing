@@ -35,6 +35,7 @@ const config: webpack.Configuration = {
     compress: true,
     port: 3000,
     hot: true,
+    historyApiFallback: true,
     client: {
       logging: "info",
       progress: true,
