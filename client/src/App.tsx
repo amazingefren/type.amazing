@@ -4,6 +4,7 @@ import Testa from "pages/a";
 import Testb from "pages/b";
 import Test from "@test";
 import { AnimatedRoute, AnimatedSwitch } from "animations";
+import Layout from "ui/layout/Layout";
 import type { HTMLMotionProps } from "framer-motion";
 
 const PageAnimation: HTMLMotionProps<"div"> = {
@@ -29,6 +30,7 @@ const App: React.FC = () => {
   return (
     <>
       <Test />
+      <Layout />
       <Link to="/a">A</Link>
       <br />
       <Link to="/b">B</Link>

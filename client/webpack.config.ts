@@ -2,7 +2,8 @@ import * as path from "path";
 import * as webpack from "webpack";
 import Html from "html-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
-import TsPaths, { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import DartSass from "sass";
 
 const htmlPlugin = new Html({
   template: "./static/index.html",
@@ -24,6 +25,22 @@ const config: webpack.Configuration = {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(s(a|c)ss)$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              implementation: DartSass,
+              sassOptions: {
+                outputStyle: "compressed",
+              },
+            },
+          },
+        ],
       },
     ],
   },
