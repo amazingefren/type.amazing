@@ -28,7 +28,7 @@ const config: webpack.Configuration = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(s(a|c)ss)$/,
+        test: /\.(css|s(a|c)ss)$/,
         use: [
           "style-loader",
           "css-loader",

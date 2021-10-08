@@ -3,5 +3,16 @@ $module: "navbar";
 .navbar {
   width: 100%;
   color: var(--fg);
-  background-color: var(--bg)
+  background-color: var(--bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &__header {
+    padding-left: 20px;
+  }
+  &__link-item {
+    button {
+      padding: 20px;
+    }
+  }
 }

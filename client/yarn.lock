@@ -1478,6 +1478,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^5.3.0
+    reset-css-complete: ^2.0.0
     sass: ^1.42.1
     sass-loader: ^12.1.0
     style-loader: ^3.3.0
@@ -5139,6 +5140,13 @@ fsevents@~2.3.2:
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
   checksum: eee0e303adffb69be55d1a214e415cf42b7441ae858c76dfc5353148644f6fd6e698926fc4643f510d5c126d12a705e7c8ed7e38061113bdf37547ab356797ff
+  languageName: node
+  linkType: hard
+
+"reset-css-complete@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "reset-css-complete@npm:2.0.0"
+  checksum: 850ebdd2e0d8971b11cf1b47c54ed8dab181cd2f389f4dcacb3e5e7f4e8d4abce33bdc2ce231fefdf3a1cbc23529a2af5583e715feaba68f9cc60725eaf17910
   languageName: node
   linkType: hard
 

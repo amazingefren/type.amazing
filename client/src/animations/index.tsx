@@ -7,7 +7,7 @@ import type { HTMLMotionProps } from "framer-motion";
 export const AnimatedSwitch: React.FC = ({ children }) => {
   const location = useLocation();
   return (
-    <AnimatePresence exitBeforeEnter={true} initial={false}>
+    <AnimatePresence exitBeforeEnter={true} initial={true}>
       <Switch location={location} key={location.pathname}>
         {children}
       </Switch>

@@ -2,12 +2,13 @@ import React from "react";
 import { Navbar } from "components";
 import "./Layout.scss";
 
-const Layout: React.FC = () => {
+export const Layout: React.FC = ({ children }) => {
   return (
-    <div className="layout">
-      <Navbar />
-    </div>
+    <>
+      <div>
+        <Navbar />
+      </div>
+      <main>{children}</main>
+    </>
   );
 };
-
-export default Layout;

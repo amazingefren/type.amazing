@@ -11,11 +11,7 @@
     "strict": true,
     "sourceMap": false,
     "target": "esnext",
-    "baseUrl": "./src",
-    "paths": {
-      "@components/*": ["./components/*"],
-      "@test": ["./components/TspathTest"]
-    }
+    "baseUrl": "./src"
   },
   "exclude" : [
     "node_modules",
