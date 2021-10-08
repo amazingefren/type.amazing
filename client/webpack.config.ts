@@ -3,6 +3,7 @@ import * as webpack from "webpack";
 import Html from "html-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import DartSass from "sass";
 
 const htmlPlugin = new Html({
@@ -47,8 +48,9 @@ const config: webpack.Configuration = {
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
     extensions: [".tsx", ".ts", ".jsx", ".js"],
-    symlinks: false
+    symlinks: false,
   },
+  devtool: 'source-map',
   devServer: {
     compress: true,
     port: 3000,
@@ -60,23 +62,23 @@ const config: webpack.Configuration = {
     },
   },
   optimization: {
-    runtimeChunk: 'single',
+    runtimeChunk: "single",
     minimize: true,
     minimizer: [new TerserPlugin()],
     usedExports: true,
     // Tesitng
     splitChunks: {
-			cacheGroups: {
-				commons: {
-					test: /[\\/]node_modules[\\/]/,
-					name: 'vendors',
-					chunks: 'all'
-				}
-			}
-		}
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
     ////////////////////////
   },
-  plugins: [htmlPlugin],
+  plugins: [htmlPlugin, new BundleAnalyzerPlugin()],
 };
 
 export default config;
