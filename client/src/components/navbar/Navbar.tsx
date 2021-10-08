@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import "./Navbar.scss";
 
 type NavbarLinkProps = {
@@ -9,7 +9,7 @@ type NavbarLinkProps = {
 
 const NavbarLink: React.FC<NavbarLinkProps> = ({ children, to }) => (
   <Link to={to} className="navbar__link-item">
-    <motion.button
+    <m.button
       whileHover={{
         backgroundColor: "var(--bg-accent)",
         borderRadius: ["30%", "30%", "0%"],
@@ -17,7 +17,7 @@ const NavbarLink: React.FC<NavbarLinkProps> = ({ children, to }) => (
       }}
     >
       {children}
-    </motion.button>
+    </m.button>
   </Link>
 );
 

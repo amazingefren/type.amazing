@@ -1,5 +1,6 @@
 import React from "react";
 import { AnimatedRoute, AnimatedSwitch } from "animations";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { Home, Settings } from "pages";
 import { Layout } from "ui";
 import "./Theme.scss";
@@ -29,16 +30,18 @@ const PageAnimation: HTMLMotionProps<"div"> = {
 const App: React.FC = () => {
   return (
     <>
-      <Layout>
-        <AnimatedSwitch>
-          <AnimatedRoute exact path={"/"} animation={PageAnimation}>
-            <Home />
-          </AnimatedRoute>
-          <AnimatedRoute exact path={"/settings"} animation={PageAnimation}>
-            <Settings />
-          </AnimatedRoute>
-        </AnimatedSwitch>
-      </Layout>
+      <LazyMotion features={domAnimation} strict>
+        <Layout>
+          <AnimatedSwitch>
+            <AnimatedRoute exact path={"/"} animation={PageAnimation}>
+              <Home />
+            </AnimatedRoute>
+            <AnimatedRoute exact path={"/settings"} animation={PageAnimation}>
+              <Settings />
+            </AnimatedRoute>
+          </AnimatedSwitch>
+        </Layout>
+      </LazyMotion>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Route, Switch, useLocation } from "react-router-dom";
 
 import type { HTMLMotionProps } from "framer-motion";
@@ -30,7 +30,7 @@ export const AnimatedRoute: React.FC<AnimatedRouteProps> = ({
 }) => {
   return (
     <Route exact={exact} path={path} {...rest}>
-      <motion.div {...animation}>{children}</motion.div>
+      <m.div {...animation}>{children}</m.div>
     </Route>
   );
 };
