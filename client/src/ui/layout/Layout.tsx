@@ -5,10 +5,12 @@ import "./Layout.scss";
 export const Layout: React.FC = ({ children }) => {
   return (
     <>
-      <div>
+      <div id="layout">
         <Navbar />
       </div>
-      <main>{children}</main>
+      <main id="layout__main" className="full-height">
+        {children}
+      </main>
     </>
   );
 };

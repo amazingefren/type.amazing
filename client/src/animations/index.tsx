@@ -30,7 +30,9 @@ export const AnimatedRoute: React.FC<AnimatedRouteProps> = ({
 }) => {
   return (
     <Route exact={exact} path={path} {...rest}>
-      <m.div {...animation}>{children}</m.div>
+      <m.div {...animation} className="full-height">
+        {children}
+      </m.div>
     </Route>
   );
 };

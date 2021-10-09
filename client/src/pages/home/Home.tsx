@@ -1,11 +1,13 @@
 import React from "react";
+import { Game } from "components";
 import "./Home.scss";
 
 export const Home: React.FC<{}> = () => {
   return (
-    <div>
-      <h2>Type</h2>
-      Hello World
+    <div id="home" className="full-height">
+      <div id="home__game" className="full-height">
+        <Game />
+      </div>
     </div>
   );
 };

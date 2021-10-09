@@ -4,6 +4,7 @@ import { LazyMotion, domAnimation } from "framer-motion";
 import { Home, Settings } from "pages";
 import { Layout } from "ui";
 import "./Theme.scss";
+import "./App.scss";
 
 import type { HTMLMotionProps } from "framer-motion";
 

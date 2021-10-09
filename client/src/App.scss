@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+body,
+html,
+#root {
+  transition: background-color 0.2s ease, color 0.2s ease;
+  background-color: var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Roboto Mono', monospace;
+  min-height: 100vh;
+}
+
+.full-height {
+  height: 100%;
+}

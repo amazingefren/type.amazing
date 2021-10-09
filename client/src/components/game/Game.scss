@@ -1,0 +1,20 @@
+.game__board-input {
+  position: absolute;
+  opacity: 0;
+}
+
+.game__board-entity {
+  display: inline;
+  position: relative;
+  user-select: none;
+  &-cursor {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: var(--syntax-bad);
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
