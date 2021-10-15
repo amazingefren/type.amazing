@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import { getGameWords } from "hooks";
-import { m, AnimateSharedLayout } from "framer-motion";
 
 type EntityType = {
   char: string;
   correct: boolean | "normal";
   modal: string | null;
   active: boolean;
-};
-
-const spring = {
-  type: "spring",
-  stiffness: 500,
-  damping: 30,
+  filler?: boolean | null;
 };
 
 const BoardEntity: React.FC<EntityType> = ({
@@ -20,6 +14,7 @@ const BoardEntity: React.FC<EntityType> = ({
   correct,
   modal,
   active,
+  filler,
 }) => {
   const color =
     correct === "normal"
@@ -27,37 +22,34 @@ const BoardEntity: React.FC<EntityType> = ({
       : correct
       ? "var(--syntax-good)"
       : "var(--syntax-bad)";
+
+  const eClass = active
+    ? "game__board-word-entity game__board-word-entity-active"
+    : filler
+    ? "game__board-word-entity game__board-word-entity-active-block"
+    : "game__board-word-entity";
+
   return (
-    <li
+    <span
       style={{ color }}
-      className="game__board-entity"
+      className={char == " " ? eClass : eClass}
       unselectable="on"
       onSelect={(_) => false}
       onMouseDown={(_) => false}
     >
-      {active && (
-        <m.div
-          layoutId="hi"
-          className="game__board-entity-cursor"
-          initial={false}
-          transition={{ spring }}
-        >
-          {" "}
-        </m.div>
-      )}
       {char}
       {!correct && (
         <div style={{ position: "absolute", top: "-100%", left: 0 }}>
           {modal}
         </div>
       )}
-    </li>
+    </span>
   );
 };
 
 const Board: React.FC<{}> = () => {
-  const { chars } = getGameWords();
-  const [input, setInput] = useState<string[]>([]);
+  const { chars, words } = getGameWords();
+  const [input, setInput] = useState<string[][]>([[]]);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const setInputFocus = () => {
@@ -65,21 +57,49 @@ const Board: React.FC<{}> = () => {
   };
 
   const handleInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (chars) {
-      const payload = Array.from(e.target.value.split(""));
-      if (payload.length >= chars?.length) {
-        if (payload.at(-1) === chars.at(-1) || payload.length > chars.length) {
-          console.log("completed");
-          return setInput(Array.from(""));
-        }
+    if (words) {
+      // Split Input into Words
+      const inputWord = Array.from(e.target.value.split(" "));
+      const currentIndex = inputWord.length - 1;
+
+      // Checks
+      if (
+        // Check Space
+        (e.target.value.at(-1) === " " &&
+          // No early space
+          inputWord[currentIndex - 1].length !==
+            words[currentIndex - 1].length) ||
+        // No Extra Word
+        inputWord.length > words.length ||
+        // No more than 1 letter longer
+        inputWord[currentIndex].length > words[currentIndex].length + 1 ||
+        // No delete completed word
+        inputWord.length < input.length
+      ) {
+        return;
+      } else if (
+        // Check Completed
+        inputWord.length === words.length &&
+        (inputWord[currentIndex].at(-1) === words[currentIndex].at(-1) ||
+          inputWord[currentIndex].length > words[currentIndex].length)
+      ) {
+        // Reset Field
+        return setInput([[]]);
       }
-      setInput(Array.from(e.target.value.split("")));
+
+      // Split Words into Characters
+      let final: string[][] = [[]];
+      inputWord.map((word, i) => (final[i] = Array.from(word)));
+
+      // Set State
+      console.debug(final);
+      setInput(final);
     }
   };
 
   return (
     <div onClick={setInputFocus} className="game__board">
-      {chars ? (
+      {chars && words ? (
         <>
           <input
             className="game__board-input"
@@ -87,23 +107,50 @@ const Board: React.FC<{}> = () => {
             type="text"
             autoCapitalize="false"
             ref={inputRef}
-            style={{ position: "absolute", opacity: 0 }}
-            value={input.join("")}
+            value={input.map((word) => word.join("")).join(" ")}
             onChange={handleInput}
+            onPaste={(e) => e.preventDefault()}
+            onSelect={(e) => e.preventDefault()}
+            onCopy={(e) => e.preventDefault()}
           />
-          <AnimateSharedLayout>
-            <ul style={{ display: "inline" }}>
-              {chars.map((char, i) => (
-                <BoardEntity
-                  char={char}
-                  key={char + i}
-                  correct={input.length > i ? input[i] === char : "normal"}
-                  active={input.length === i}
-                  modal={input[i]}
-                />
-              ))}
-            </ul>
-          </AnimateSharedLayout>
+          <div className="game__board-word-container">
+            {words.map((word, i) => {
+              return (
+                <div className="game__board-word" key={word + i}>
+                  {Array.from(word).map((char, j) => (
+                    <BoardEntity
+                      char={char}
+                      key={char + i + j}
+                      correct={
+                        input[i]
+                          ? input[i].length > j
+                            ? input[i][j] === char
+                            : "normal"
+                          : "normal"
+                      }
+                      active={input[i] ? input[i].length === j : false}
+                      modal={""}
+                    />
+                  ))}
+                  <BoardEntity
+                    char={
+                      input.length - 1 === i && input[i].length > word.length
+                        ? input[i].at(-1) || " "
+                        : " "
+                    }
+                    correct={false}
+                    active={
+                      input.length - 1 === i && input[i].length === word.length
+                    }
+                    modal={""}
+                    filler={
+                      input.length - 1 === i && input[i].length > word.length
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
         </>
       ) : (
         <div>Loading</div>
